@@ -23,7 +23,7 @@
 
 项目地址
 ===================
-欢迎大家 `访问 <https://github.com/foyoux/Google-Translate/>`_
+欢迎大家 `访问 <https://github.com/foyoux/pygtrans/>`_
 
 
 依赖
@@ -38,5 +38,3 @@
 - `最应该感谢的 - Google Translate <https://translate.google.com/>`_
 - `当然还有Python <https://python.org/>`_
 - `还有readthedocs <https://readthedocs.io/>`_
-
-
