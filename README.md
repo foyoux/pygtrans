@@ -1,5 +1,7 @@
 # pygtrans
 
+**pygtrans**: *python google translate*
+
 谷歌翻译, 支持 **APIKEY**
 
 - [github](https://github.com/foyoux/pygtrans)
@@ -10,13 +12,14 @@
 
 ## 基本功能
 
-- 获取语言支持列表
-- 自动检测语言, 支持批量
-- 文本/HTML 翻译, 支持批量
+- [x] 获取语言支持列表
+- [x] 自动检测语言, 支持批量
+- [x] 文本/HTML 翻译, 支持批量
 
 
 ## 安装
 **环境要求**: `>= python 3.7`
+
 ```bat
 pip install pygtrans
 ```
@@ -113,7 +116,6 @@ for text in texts:
 
 ### [有问题?](https://github.com/foyoux/pygtrans/issues/new)
 ## 欢迎大家反馈和建议
-
 
 
 
