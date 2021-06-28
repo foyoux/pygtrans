@@ -45,7 +45,7 @@ print(text.translatedText)  # 谷歌翻译
 |                 |                           缺点                           |         优点         |
 | :-------------: | :------------------------------------------------------: | :------------------: |
 |    Translate    | 可能不稳定(使用频率), 需要更换`User-Agent`或者使用IP代理 | 可直接使用, 无需梯子 |
-| ApiKeyTranslate |     无论如何都需要梯子, 并且试用结束后, 需要`money`      |      无使用限制      |
+| ApiKeyTranslate |                 试用结束后, 需要`money`                  |      无使用限制      |
 
 #### 关于不稳定的问题 
 
@@ -112,7 +112,9 @@ for text in texts:
 请参考 [pygtrans文档](https://pygtrans.readthedocs.io/zh_CN/latest/pygtrans.html#module-pygtrans.ApiKeyTranslate)
 
 
-### 本文档可能会有所滞后, `pip install pygtrans` 亲自尝试下吧~
+
+
+## 本文档可能会有所滞后, `pip install pygtrans` 亲自尝试下吧~
 
 ### [有问题?](https://github.com/foyoux/pygtrans/issues/new)
 ## 欢迎大家反馈和建议
