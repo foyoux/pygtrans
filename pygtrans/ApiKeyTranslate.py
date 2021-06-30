@@ -25,7 +25,10 @@ class ApiKeyTranslate:
     :param model: str: (可选) 翻译模型. 可以是 base 使用 Phrase-Based Machine Translation (PBMT) 模型，
         或者 nmt 使用 Neural Machine Translation (NMT) 模型。如果省略，则使用 nmt。如果模型是 nmt，
         并且 NMT 模型不支持请求的语言翻译对，则使用 PBMT 模型翻译请求。
-    :param proxies: (可选) 国内用户可能需要设置代理
+    :param proxies: (可选) eg: proxies = {
+            'http': 'http://localhost:10809',
+            'https': 'http://localhost:10809'
+        }
 
     基本用法:
         >>> from pygtrans import ApiKeyTranslate
@@ -69,6 +72,7 @@ class ApiKeyTranslate:
         self.format = _format
         self.model = model
         self.session = requests.Session()
+
         if proxies is not None:
             self.session.proxies = proxies
 
@@ -112,6 +116,7 @@ class ApiKeyTranslate:
             >>> assert isinstance(client.detect(['Hello', 'Google']), list)
 
         """
+
         response = self.session.post(self._DETECT_URL, params={
             'key': self.api_key
         }, data={
@@ -150,6 +155,10 @@ class ApiKeyTranslate:
         :return: 成功则返回: :class:`pygtrans.TranslateResponse.TranslateResponse` 对象,
             或 :class:`pygtrans.TranslateResponse.TranslateResponse` 对象列表, 这取决于 `参数: q` 是字符串还是字符串列表.
             失败则返回 :class:`pygtrans.Null.Null` 对象
+
+        .. 谷歌API调用限制
+            最大并发量: 128
+            最大请求体大小: 102400 Byte
 
         基本用法:
             >>> from pygtrans import ApiKeyTranslate
