@@ -4,22 +4,26 @@ from pygtrans import ApiKeyTranslate, TranslateResponse, LanguageResponse, Detec
 from pygtrans import __apikey__
 
 api_key = __apikey__
-proxies = {
-    'http': 'http://localhost:10809',
-    'https': 'http://localhost:10809'
-}
+
+
+# proxies = {
+#     'http': 'http://localhost:10809',
+#     'https': 'http://localhost:10809'
+# }
 
 
 def test_translate():
     """测试构造函数"""
-    client = ApiKeyTranslate(api_key=api_key, target='en', source='zh-CN', proxies=proxies)
+    # client = ApiKeyTranslate(api_key=api_key, target='en', source='zh-CN', proxies=proxies)
+    client = ApiKeyTranslate(api_key=api_key, target='en', source='zh-CN')
     t = client.translate('喜欢你, 怎么办')
     assert isinstance(t, TranslateResponse)
     assert t.translatedText.find('you') != -1
 
 
 """默认构造"""
-client = ApiKeyTranslate(api_key=api_key, proxies=proxies)
+# client = ApiKeyTranslate(api_key=api_key, proxies=proxies)
+client = ApiKeyTranslate(api_key=api_key)
 
 
 def test_supported_languages():
