@@ -24,6 +24,14 @@
 pip install pygtrans
 ```
 
+或者
+
+```
+pip install pygtrans -i https://pypi.org/simple
+```
+
+
+
 ## 快速入门
 
 ```python

@@ -8,6 +8,7 @@
 """
 from typing import List, Union, Dict, overload
 
+import pxy
 import requests
 
 from pygtrans.DetectResponse import DetectResponse
@@ -116,18 +117,19 @@ class ApiKeyTranslate:
             >>> assert isinstance(client.detect(['Hello', 'Google']), list)
 
         """
-
-        response = self.session.post(self._DETECT_URL, params={
-            'key': self.api_key
-        }, data={
-            'q': q
-        })
-        if response.status_code == 200:
-            ll = [DetectResponse(**i[0]) for i in response.json()['data']['detections']]
-            if isinstance(q, str):
-                return ll[0]
-            return ll
-        return Null(response)
+        ll = []
+        for ql in pxy.split_list(q):
+            response = self.session.post(self._DETECT_URL, params={
+                'key': self.api_key
+            }, data={
+                'q': ql
+            })
+            if response.status_code != 200:
+                return Null(response)
+            ll.extend([DetectResponse(**i[0]) for i in response.json()['data']['detections']])
+        if isinstance(q, str):
+            return ll[0]
+        return ll
 
     @overload
     def translate(
@@ -187,14 +189,17 @@ class ApiKeyTranslate:
         if model is None:
             model = self.model
 
-        response = self.session.post(self._BASE_URL, params={
-            'key': self.api_key, 'target': target, 'source': source, 'format': _format, 'model': model
-        }, data={'q': q})
+        ll = []
+        for ql in pxy.split_list(q):
+            response = self.session.post(self._BASE_URL, params={
+                'key': self.api_key, 'target': target, 'source': source, 'format': _format, 'model': model
+            }, data={'q': ql})
 
-        if response.status_code == 200:
-            ll = [TranslateResponse(**i) for i in response.json()['data']['translations']]
-            if isinstance(q, str):
-                return ll[0]
-            return ll
+            if response.status_code != 200:
+                return Null(response)
 
-        return Null(response)
+            ll.extend([TranslateResponse(**i) for i in response.json()['data']['translations']])
+
+        if isinstance(q, str):
+            return ll[0]
+        return ll

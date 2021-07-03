@@ -7,7 +7,7 @@ from .Null import Null
 from .Translate import Translate
 from .TranslateResponse import TranslateResponse
 
-__apikey__ = '<your-apikey>'
+__apikey__ = '<your-api-key>'
 
 __title__ = 'pygtrans'
 __description__ = 'Google Translate, support APIKEY'
@@ -18,6 +18,5 @@ __author_email__ = 'yimi.0822@qq.com'
 __license__ = 'GPL-3.0'
 __copyright__ = f'Copyright 2021 {__author__}'
 __ide__ = 'PyCharm - https://www.jetbrains.com/pycharm/'
-
 
 __all__ = ['Translate', 'ApiKeyTranslate', 'Null', 'LanguageResponse', 'DetectResponse', 'TranslateResponse']
