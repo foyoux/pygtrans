@@ -85,7 +85,7 @@ def test_split_list_by_content_size():
     assert split_list_by_content_size(['11', '22', '33'], 3) == [['11'], ['22'], ['33']]
 
 
-def test_102400():
+def test_dt_102400():
     t1 = client.translate(['love you ' * 100] * 1024)
     assert isinstance(t1, list)
     assert len(t1) == 1024
