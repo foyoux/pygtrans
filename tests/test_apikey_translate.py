@@ -1,6 +1,6 @@
 """测试 ApiKeyTranslate"""
 
-from pygtrans import ApiKeyTranslate, TranslateResponse, LanguageResponse, DetectResponse
+from pygtrans import ApiKeyTranslate, TranslateResponse, LanguageResponse, DetectResponse, split_list_by_content_size
 from pygtrans import __apikey__
 
 api_key = __apikey__
@@ -78,3 +78,17 @@ def test_translate_128():
     d1 = client.translate(['A'] * 150)
     assert isinstance(d1, list)
     assert len(d1) == 150
+
+
+def test_split_list_by_content_size():
+    assert split_list_by_content_size(['11', '22', '33'], 4) == [['11', '22'], ['33']]
+    assert split_list_by_content_size(['11', '22', '33'], 3) == [['11'], ['22'], ['33']]
+
+
+def test_102400():
+    t1 = client.translate(['love you ' * 100] * 1024)
+    assert isinstance(t1, list)
+    assert len(t1) == 1024
+    t2 = client.detect(['love you ' * 100] * 1024)
+    assert isinstance(t2, list)
+    assert len(t2) == 1024

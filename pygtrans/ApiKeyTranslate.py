@@ -6,6 +6,7 @@
     #. 语言检测, 支持批量检测
     #. 文本翻译, 支持批量, 支持 html 模式翻译
 """
+import math
 from typing import List, Union, Dict, overload
 
 import pxy
@@ -15,6 +16,19 @@ from pygtrans.DetectResponse import DetectResponse
 from pygtrans.LanguageResponse import LanguageResponse
 from pygtrans.Null import Null
 from pygtrans.TranslateResponse import TranslateResponse
+
+
+def split_list_by_content_size(obj_list: List[str], content_size: int = 102400) -> List[List[str]]:
+    if content_size < 1:
+        content_size = 1
+    if len(obj_list) == 1 or len(''.join(obj_list)) <= content_size:
+        return [obj_list]
+
+    mid = math.ceil(len(obj_list) / 2)
+    ll = []
+    ll.extend(split_list_by_content_size(obj_list[:mid], content_size=content_size))
+    ll.extend(split_list_by_content_size(obj_list[mid:], content_size=content_size))
+    return ll
 
 
 class ApiKeyTranslate:
@@ -60,6 +74,7 @@ class ApiKeyTranslate:
     _BASE_URL: str = 'https://translation.googleapis.com/language/translate/v2'
     _LANGUAGE_URL: str = f'{_BASE_URL}/languages'
     _DETECT_URL: str = f'{_BASE_URL}/detect'
+    _LIMIT_SIZE = 102400
 
     def __init__(
             self, api_key: str, target: str = 'zh-CN', source: str = None, _format: str = 'html', model: str = 'nmt',
@@ -119,14 +134,15 @@ class ApiKeyTranslate:
         """
         ll = []
         for ql in pxy.split_list(q):
-            response = self.session.post(self._DETECT_URL, params={
-                'key': self.api_key
-            }, data={
-                'q': ql
-            })
-            if response.status_code != 200:
-                return Null(response)
-            ll.extend([DetectResponse(**i[0]) for i in response.json()['data']['detections']])
+            for qli in split_list_by_content_size(ql):
+                response = self.session.post(self._DETECT_URL, params={
+                    'key': self.api_key
+                }, data={
+                    'q': qli
+                })
+                if response.status_code != 200:
+                    return Null(response)
+                ll.extend([DetectResponse(**i[0]) for i in response.json()['data']['detections']])
         if isinstance(q, str):
             return ll[0]
         return ll
@@ -178,6 +194,7 @@ class ApiKeyTranslate:
             >>> texts[0].translatedText, texts[1].translatedText
             ('你好', '你好')
         """
+
         if target is None:
             target = self.target
         if source == 'auto':
@@ -191,14 +208,15 @@ class ApiKeyTranslate:
 
         ll = []
         for ql in pxy.split_list(q):
-            response = self.session.post(self._BASE_URL, params={
-                'key': self.api_key, 'target': target, 'source': source, 'format': _format, 'model': model
-            }, data={'q': ql})
+            for qli in split_list_by_content_size(ql):
+                response = self.session.post(self._BASE_URL, params={
+                    'key': self.api_key, 'target': target, 'source': source, 'format': _format, 'model': model
+                }, data={'q': qli})
 
-            if response.status_code != 200:
-                return Null(response)
+                if response.status_code != 200:
+                    return Null(response)
 
-            ll.extend([TranslateResponse(**i) for i in response.json()['data']['translations']])
+                ll.extend([TranslateResponse(**i) for i in response.json()['data']['translations']])
 
         if isinstance(q, str):
             return ll[0]
