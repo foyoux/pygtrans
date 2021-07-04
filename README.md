@@ -1,14 +1,14 @@
 # pygtrans
 
-**pygtrans**: *python google translate*
+**pygtrans**: *python google translate* 
 
 谷歌翻译, 支持 **APIKEY**
 
 - [github](https://github.com/foyoux/pygtrans)
-
 - [pypi](https://pypi.org/project/pygtrans/)
-
 - [文档](https://pygtrans.readthedocs.io/zh_CN/latest/)
+
+![](https://img.shields.io/pypi/pyversions/pygtrans) ![](https://img.shields.io/github/v/release/foyoux/pygtrans) ![](https://img.shields.io/github/last-commit/foyoux/pygtrans)
 
 ## 基本功能
 
