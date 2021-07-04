@@ -7,7 +7,7 @@ from .Null import Null
 from .Translate import Translate
 from .TranslateResponse import TranslateResponse
 
-__apikey__ = '<your-api-key>'
+__apikey__ = 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw'
 
 __title__ = 'pygtrans'
 __description__ = 'Google Translate, support APIKEY'
