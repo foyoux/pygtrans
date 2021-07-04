@@ -1,12 +1,15 @@
-"""文本片段的语言检测结果"""
-from dataclasses import dataclass
-
-
-@dataclass
 class DetectResponse:
-    language: str
-    """检测到的语言"""
-    isReliable: bool = True
-    """(已弃用) 表示语言检测结果是否可靠"""
-    confidence: float = 1.0
-    """(已弃用) 此语言检测结果的置信度"""
+    def __init__(self, language: str, isReliable: bool = True, confidence: float = 1.0):
+        """
+
+        :param language: 检测到的语言
+        :param isReliable: (已弃用) 表示语言检测结果是否可靠
+        :param confidence: (已弃用) 此语言检测结果的置信度
+        """
+
+        self.language = language
+        self.isReliable = isReliable
+        self.confidence = confidence
+
+    def __repr__(self):
+        return self.__class__.__qualname__ + f'(language={self.language}, isReliable={self.isReliable}, confidence={self.confidence})'

@@ -18,7 +18,7 @@
 
 
 ## 安装
-**环境要求**: `>= python 3.7`
+**环境要求**: `>= python 3.6`
 
 ```bat
 pip install pygtrans
