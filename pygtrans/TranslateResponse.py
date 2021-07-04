@@ -10,3 +10,6 @@ class TranslateResponse:
         self.translatedText = translatedText
         self.detectedSourceLanguage = detectedSourceLanguage
         self.model = model
+
+    def __repr__(self):
+        return self.__class__.__qualname__ + f'(translatedText={self.translatedText}, detectedSourceLanguage={self.detectedSourceLanguage}, model={self.model})'
