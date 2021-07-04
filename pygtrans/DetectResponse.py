@@ -12,4 +12,4 @@ class DetectResponse:
         self.confidence = confidence
 
     def __repr__(self):
-        return self.__class__.__qualname__ + f'(language={self.language}, isReliable={self.isReliable}, confidence={self.confidence})'
+        return self.__class__.__qualname__ + f'(language={repr(self.language)}, isReliable={repr(self.isReliable)}, confidence={repr(self.confidence)})'
