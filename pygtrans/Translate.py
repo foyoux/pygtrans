@@ -165,6 +165,14 @@ class Translate:
             Batch test
             Batch translation
         """
+
+        if not q:
+            return []
+
+        if isinstance(q, str):
+            if q == '':
+                return ''
+
         response = self._translate(q=q, target=target, source=source, _format=_format, v='1.0')
 
         if response.status_code == 200:
@@ -206,6 +214,14 @@ class Translate:
             zh-CN
             zh-CN
         """
+
+        if not q:
+            return []
+
+        if isinstance(q, str):
+            if q == '':
+                return ''
+
         response = self._translate(q=q, target=target, source=source, _format=_format)
 
         if response.status_code == 200:
