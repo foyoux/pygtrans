@@ -2,8 +2,6 @@
 
 **pygtrans**: *python google translate*  
 
-<iframe src="https://ghbtns.com/github-btn.html?user=foyoux&repo=pygtrans&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
-
 谷歌翻译, 支持 **APIKEY**
 
 - [github](https://github.com/foyoux/pygtrans)
@@ -63,7 +61,7 @@ print(text.translatedText)  # 谷歌翻译
 
 |                 |                             缺点                             |                            优点                             |
 | :-------------: | :----------------------------------------------------------: | :---------------------------------------------------------: |
-|    Translate    |                         可能会不稳定                         | 免费, 可直接使用<br/>亲测这货一次性可以翻译 **10万** 个句子 |
+|    Translate    |                      稳定性无法得到保证                      | 免费, 可直接使用<br/>亲测这货一次性可以翻译 **10万** 个句子 |
 | ApiKeyTranslate | 需要`money`<br/>翻译内容一次性最多 **102400** bytes<br/>一次性最多翻译 **128** 个句子 |                          比较稳定                           |
 
 - **Translate** 未作任何限制, 如果大家使用过程中出现问题, 请大家 [留言](https://github.com/foyoux/pygtrans/issues/new)
@@ -143,14 +141,14 @@ tts = client.tts('やめて', target='ja')
 open('やめて.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/やめて.mp3'>你好</audio>
+<audio src='images/やめて.mp3'>やめて</audio>
 
 ```python
 tts = client.tts('一二三四五, 上山打老虎')
 open('一二三四五.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/一二三四五.mp3'>你好</audio>
+<audio src='images/一二三四五.mp3'>一二三四五</audio>
 
 ```python
 tts = client.tts("""
@@ -169,7 +167,7 @@ tts = client.tts("""
 open('我的小鱼你醒了.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/我的小鱼你醒了.mp3'>你好</audio>
+<audio src='images/我的小鱼你醒了.mp3'>我的小鱼你醒了</audio>
 
 
 
