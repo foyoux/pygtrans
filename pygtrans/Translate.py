@@ -5,6 +5,8 @@
     #. 语言检测, 支持批量检测
     #. 文本翻译, 支持批量, 支持 html 模式翻译
 """
+import base64
+import random
 from typing import List, Union, overload, Dict
 
 import requests
@@ -61,13 +63,17 @@ class Translate:
             target: str = 'zh-CN',
             source: str = 'auto',
             _format='html',
-            user_agent: str = 'GoogleTranslate/6.18.0.06.376053713 (Linux; U; Android 11; GM1900)',
+            user_agent: str = None,
             domain: str = 'cn',
             proxies: Dict = None
     ):
         self.target = target
         self.source = source
         self.format = _format
+
+        if user_agent is None:
+            user_agent = f'GoogleTranslate/6.{random.randint(10,100)}.0.06.{random.randint(111111111, 999999999)} (Linux; U; Android {random.randint(5, 11)}; {base64.b64encode(str(random.random())[2:].encode()).decode()})'
+
         self.session = requests.Session()
         self.session.headers = {
             'User-Agent': user_agent
