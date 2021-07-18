@@ -76,6 +76,7 @@ class Translate:
         self.LANGUAGE_URL: str = f'{self.BASE_URL}/translate_a/l'
         self.DETECT_URL: str = f'{self.BASE_URL}/translate_a/single'
         self.TRANSLATE_URL: str = f'{self.BASE_URL}/translate_a/t'
+        self.TTS_URL: str = f'{self.BASE_URL}/translate_tts'
 
         if proxies is not None:
             self.session.proxies = proxies
@@ -165,6 +166,14 @@ class Translate:
             Batch test
             Batch translation
         """
+
+        if not q:
+            return []
+
+        if isinstance(q, str):
+            if q == '':
+                return ''
+
         response = self._translate(q=q, target=target, source=source, _format=_format, v='1.0')
 
         if response.status_code == 200:
@@ -206,6 +215,14 @@ class Translate:
             zh-CN
             zh-CN
         """
+
+        if not q:
+            return []
+
+        if isinstance(q, str):
+            if q == '':
+                return ''
+
         response = self._translate(q=q, target=target, source=source, _format=_format)
 
         if response.status_code == 200:
@@ -234,3 +251,26 @@ class Translate:
             data={'q': q}
         )
         return response
+
+    def tts(self, q: str, target: str = None) -> bytes:
+        """语音: 实验功能
+
+        :param q: 只支持短语字符串
+        :param target: 目标语言
+        :return: 返回二进制数据, 需要自行写入文件, MP3
+        """
+        if target is None:
+            target = self.target
+
+        response = self.session.get(
+            self.TTS_URL,
+            params={
+                'ie': 'UTF-8',
+                'client': 'at',
+                'tl': target,
+                'q': q
+            })
+
+        if response.status_code == 200:
+            return response.content
+        return Null(response)
