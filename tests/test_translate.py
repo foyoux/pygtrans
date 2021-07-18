@@ -43,3 +43,8 @@ def test_translate_text():
     assert isinstance(t2, list)
     # for i in t2:
     #     print(i)
+
+
+def test_tts():
+    tts = cn.tts('谷歌翻译')
+    assert isinstance(tts, Null) is False
