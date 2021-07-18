@@ -8,7 +8,7 @@
 - [pypi](https://pypi.org/project/pygtrans/)
 - [文档](https://pygtrans.readthedocs.io/zh_CN/latest/)
 
-[![](https://img.shields.io/pypi/pyversions/pygtrans)](https://pypi.org/project/pygtrans/) [![](https://img.shields.io/github/v/release/foyoux/pygtrans)](https://github.com/foyoux/pygtrans/releases) ![](https://img.shields.io/github/last-commit/foyoux/pygtrans)
+![test badge](https://github.com/foyoux/pygtrans/actions/workflows/python-test.yml/badge.svg) [![](https://img.shields.io/pypi/pyversions/pygtrans)](https://pypi.org/project/pygtrans/) [![](https://img.shields.io/github/v/release/foyoux/pygtrans)](https://github.com/foyoux/pygtrans/releases) ![](https://img.shields.io/github/last-commit/foyoux/pygtrans)
 
 
 
@@ -134,21 +134,21 @@ tts = client.tts('你好')
 open('你好.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/你好.mp3'>你好</audio>
+[你好.mp3](images/你好.mp3)
 
 ```python
 tts = client.tts('やめて', target='ja')
 open('やめて.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/やめて.mp3'>やめて</audio>
+[やめて.mp3](images/やめて.mp3)
 
 ```python
 tts = client.tts('一二三四五, 上山打老虎')
 open('一二三四五.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/一二三四五.mp3'>一二三四五</audio>
+[一二三四五.mp3](images/一二三四五.mp3)
 
 ```python
 tts = client.tts("""
@@ -167,7 +167,7 @@ tts = client.tts("""
 open('我的小鱼你醒了.mp3', 'wb').write(tts)
 ```
 
-<audio src='images/我的小鱼你醒了.mp3'>我的小鱼你醒了</audio>
+[我的小鱼你醒了.mp3](images/我的小鱼你醒了.mp3)
 
 
 
