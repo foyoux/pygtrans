@@ -8,7 +8,7 @@
 - [pypi](https://pypi.org/project/pygtrans/)
 - [文档](https://pygtrans.readthedocs.io/zh_CN/latest/)
 
-![test badge](https://github.com/foyoux/pygtrans/actions/workflows/python-test.yml/badge.svg) [![](https://img.shields.io/pypi/pyversions/pygtrans)](https://pypi.org/project/pygtrans/) [![](https://img.shields.io/github/v/release/foyoux/pygtrans)](https://github.com/foyoux/pygtrans/releases) ![](https://img.shields.io/github/last-commit/foyoux/pygtrans)
+![test badge](https://github.com/foyoux/pygtrans/actions/workflows/python-test.yml/badge.svg) [![](https://img.shields.io/pypi/pyversions/pygtrans)](https://pypi.org/project/pygtrans/) [![](https://img.shields.io/github/v/release/foyoux/pygtrans)](https://github.com/foyoux/pygtrans/releases) ![](https://img.shields.io/github/last-commit/foyoux/pygtrans) [![Downloads](https://static.pepy.tech/personalized-badge/pygtrans?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pygtrans)
 
 > 重新写的博文, 也许会清晰一点, 大家也可以看看
 >
