@@ -27,13 +27,13 @@
 
 **环境要求**: `>= python 3.6`
 
-```bat
+```bash
 pip install pygtrans
 ```
 
 或者
 
-```
+```bash
 pip install pygtrans -i https://pypi.org/simple
 ```
 
