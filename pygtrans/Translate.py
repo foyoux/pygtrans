@@ -72,7 +72,7 @@ class Translate:
         self.format = _format
 
         if user_agent is None:
-            user_agent = f'GoogleTranslate/6.{random.randint(10,100)}.0.06.{random.randint(111111111, 999999999)} (Linux; U; Android {random.randint(5, 11)}; {base64.b64encode(str(random.random())[2:].encode()).decode()})'
+            user_agent = f'GoogleTranslate/6.{random.randint(10, 100)}.0.06.{random.randint(111111111, 999999999)} (Linux; U; Android {random.randint(5, 11)}; {base64.b64encode(str(random.random())[2:].encode()).decode()})'
 
         self.session = requests.Session()
         self.session.headers = {
@@ -114,7 +114,7 @@ class Translate:
     #     return [LanguageResponse(language=i[0], name=i[1]) for i in response.json()['sl'].items()]
     #     # return [LanguageResponse(language=i[0], name=i[1]) for i in response.json()['tl'].items()]
 
-    def detect(self, q: str) -> DetectResponse:
+    def detect(self, q: str) -> Union[DetectResponse, Null]:
         """语言检测
 
         :param q: 需要检测的内容, 不支持批量, 如需批量, 请参阅: :func:`translate_and_detect`.
@@ -149,7 +149,7 @@ class Translate:
 
     def translate(
             self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None
-    ) -> Union[TranslateResponse, List[TranslateResponse]]:
+    ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """翻译文本, 支持批量, 支持 html
 
         :param q: str: 字符串或字符串列表
@@ -178,7 +178,7 @@ class Translate:
 
         if isinstance(q, str):
             if q == '':
-                return ''
+                return TranslateResponse('')
 
         response = self._translate(q=q, target=target, source=source, _format=_format, v='1.0')
 
@@ -204,7 +204,7 @@ class Translate:
 
     def translate_and_detect(
             self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None
-    ) -> Union[TranslateResponse, List[TranslateResponse]]:
+    ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """与 :class:`translate` 相同, 区别是 ``TranslateResponse`` 对象的 ``detectedSourceLanguage`` 属性可用
 
         基本用法:
@@ -227,7 +227,7 @@ class Translate:
 
         if isinstance(q, str):
             if q == '':
-                return ''
+                return TranslateResponse('')
 
         response = self._translate(q=q, target=target, source=source, _format=_format)
 
@@ -258,7 +258,7 @@ class Translate:
         )
         return response
 
-    def tts(self, q: str, target: str = None) -> bytes:
+    def tts(self, q: str, target: str = None) -> Union[bytes, Null]:
         """语音: 实验功能
 
         :param q: 只支持短语字符串

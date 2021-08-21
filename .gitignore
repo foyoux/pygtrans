@@ -37,7 +37,7 @@ badge.svg
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
+main.py
 # Unit test / coverage reports
 htmlcov/
 .tox/

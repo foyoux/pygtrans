@@ -1,4 +1,9 @@
+"""TranslateResponse"""
+
+
 class TranslateResponse:
+    """TranslateResponse"""
+
     def __init__(self, translatedText: str, detectedSourceLanguage: str = None, model: str = None):
         """
 

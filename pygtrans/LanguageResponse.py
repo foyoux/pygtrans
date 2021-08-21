@@ -1,4 +1,9 @@
+"""LanguageResponse"""
+
+
 class LanguageResponse:
+    """LanguageResponse"""
+
     def __init__(self, language: str, name: str = None):
         """
 

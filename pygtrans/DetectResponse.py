@@ -1,4 +1,9 @@
+"""DetectResponse"""
+
+
 class DetectResponse:
+    """DetectResponse"""
+
     def __init__(self, language: str, isReliable: bool = True, confidence: float = 1.0):
         """
 

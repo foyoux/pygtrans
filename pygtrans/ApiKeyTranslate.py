@@ -9,7 +9,6 @@
 import math
 from typing import List, Union, Dict, overload
 
-import pxy
 import requests
 
 from pygtrans.DetectResponse import DetectResponse
@@ -18,7 +17,22 @@ from pygtrans.Null import Null
 from pygtrans.TranslateResponse import TranslateResponse
 
 
+def split_list(obj_list: List, sub_size: int = 128) -> List[list]:
+    """
+    split list
+    :param obj_list: list object
+    :param sub_size: sub list size
+    :return: List[list]
+    """
+    if not isinstance(obj_list, list):
+        return [[obj_list]]
+    if sub_size < 1:
+        sub_size = 1
+    return [obj_list[i:i + sub_size] for i in range(0, len(obj_list), sub_size)]
+
+
 def split_list_by_content_size(obj_list: List[str], content_size: int = 102400) -> List[List[str]]:
+    """..."""
     if content_size < 1:
         content_size = 1
     if len(obj_list) == 1 or len(''.join(obj_list)) <= content_size:
@@ -89,7 +103,7 @@ class ApiKeyTranslate:
         if proxies is not None:
             self.session.proxies = proxies
 
-    def languages(self, target: str = None, model: str = None) -> List[LanguageResponse]:
+    def languages(self, target: str = None, model: str = None) -> Union[List[LanguageResponse], Null]:
         """语言支持列表"""
         if target is None:
             target = self.target
@@ -108,7 +122,7 @@ class ApiKeyTranslate:
     def detect(self, q: List[str]) -> List[DetectResponse]:
         """..."""
 
-    def detect(self, q: Union[str, List[str]]) -> Union[DetectResponse, List[DetectResponse]]:
+    def detect(self, q: Union[str, List[str]]) -> Union[DetectResponse, List[DetectResponse], Null]:
         """语言检测, 支持批量
 
         :param q: 字符串或字符串列表
@@ -130,7 +144,7 @@ class ApiKeyTranslate:
 
         """
         ll = []
-        for ql in pxy.split_list(q):
+        for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
                 response = self.session.post(self._DETECT_URL, params={
                     'key': self.api_key
@@ -159,7 +173,7 @@ class ApiKeyTranslate:
     def translate(
             self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None,
             model: str = None
-    ) -> Union[TranslateResponse, List[TranslateResponse]]:
+    ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """文本翻译, 支持批量
 
         :param q: str: 字符串或字符串列表
@@ -204,7 +218,7 @@ class ApiKeyTranslate:
             model = self.model
 
         ll = []
-        for ql in pxy.split_list(q):
+        for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
                 response = self.session.post(self._BASE_URL, params={
                     'key': self.api_key, 'target': target, 'source': source, 'format': _format, 'model': model
