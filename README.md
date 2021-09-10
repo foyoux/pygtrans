@@ -1,6 +1,6 @@
-# pygtrans 
+# pygtrans
 
-**pygtrans**: *python google translate*  
+**pygtrans**: *python google translate*
 
 谷歌翻译, 支持 **APIKEY**
 
@@ -20,8 +20,7 @@
 - [x] 自动检测语言, 支持批量
 - [x] 文本/HTML 翻译, 支持批量
 - [x] 支持 TTS
-
-
+- [x] 支持 Edge 大声朗读
 
 ## 安装
 
@@ -38,8 +37,6 @@ pip install pygtrans -i https://pypi.org/simple
 ```
 
 必要时可以加个 `--upgrade` 参数
-
-
 
 ## 快速入门
 
@@ -63,8 +60,8 @@ texts = client.translate([
     'May I have your name and telephone number?'
 ])
 assert [text.translatedText for text in texts] == [
-    '早上好。我能为你做什么？', 
-    '大声朗读并在有关预订航班的句子下划线。', 
+    '早上好。我能为你做什么？',
+    '大声朗读并在有关预订航班的句子下划线。',
     '可以给我你的名字和电话号码吗？'
 ]
 
@@ -82,27 +79,24 @@ open('やめて.mp3', 'wb').write(tts)
 
 ```
 
-
-
 ## 基本介绍
 
 `pygtrans`包中有两个需要关心的模块
+
 1. `Translate`: 通过`谷歌翻译`API接口实现, 可直接使用, 但可能不稳定
-2. `ApiKeyTranslate`: 通过`Google Cloud Translate APIs`实现, 需要提供一个有效的`APIKEY`, [谷歌提供免费试用](https://cloud.google.com/translate/docs/quickstarts)
-
-
+2. `ApiKeyTranslate`: 通过`Google Cloud Translate APIs`实现, 需要提供一个有效的`APIKEY`
+   , [谷歌提供免费试用](https://cloud.google.com/translate/docs/quickstarts)
 
 ### 二者的差异
 
 |                 |                             缺点                             |                            优点                             |
 | :-------------: | :----------------------------------------------------------: | :---------------------------------------------------------: |
 |    Translate    |                      稳定性无法得到保证                      | 免费, 可直接使用<br/>亲测这货一次性可以翻译 **10万** 个句子 |
-| ApiKeyTranslate | 需要`money`<br/>翻译内容一次性最多 **102400** bytes<br/>一次性最多翻译 **128** 个句子 |                          比较稳定                           |
+| ApiKeyTranslate | 需要`money`<br/>翻译内容一次性最多 **102400** bytes<br/>一次性最多翻译 **
+128** 个句子 |                          比较稳定                           |
 
 - **Translate** 未作任何限制, 如果大家使用过程中出现问题, 请大家 [留言](https://github.com/foyoux/pygtrans/issues/new)
 - **ApiKeyTranslate** 的官方限制, 已在代码中容错, 唯一需要注意的是: *单个句子不要超过* **102400** *bytes*
-
-
 
 ### 关于`Null`模块
 
@@ -121,14 +115,14 @@ else:
 
 *建议按需判断, 一般直接使用*
 
-
-
 ## 基本使用
 
 ### 使用`Translate`
 
 - **获取支持语言**: 该功能从代码中删除, 以 [语言支持列表](https://pygtrans.readthedocs.io/zh_CN/latest/langs.html) 方式提供
-- **语言检测**: 方法`detect`不支持批量检测, 如需批量检测请使用 [`translate_and_detect`](https://pygtrans.readthedocs.io/zh_CN/latest/pygtrans.html#pygtrans.Translate.Translate.translate_and_detect) 方法
+- **语言检测**: 方法`detect`不支持批量检测,
+  如需批量检测请使用 [`translate_and_detect`](https://pygtrans.readthedocs.io/zh_CN/latest/pygtrans.html#pygtrans.Translate.Translate.translate_and_detect)
+  方法
 
 ```python
 from pygtrans import Translate
@@ -137,7 +131,9 @@ client = Translate()
 d = client.detect('你好')
 assert d.language == 'zh-CN'
 ```
-- **文本翻译**: 使用`translate`方法, 默认就是`HTML`模式翻译, 详细参数设置请移步至 [pygtrans文档](https://pygtrans.readthedocs.io/zh_CN/latest/pygtrans.html#pygtrans.Translate.Translate)
+
+- **文本翻译**: 使用`translate`方法, 默认就是`HTML`模式翻译,
+  详细参数设置请移步至 [pygtrans文档](https://pygtrans.readthedocs.io/zh_CN/latest/pygtrans.html#pygtrans.Translate.Translate)
 
 ```python
 from pygtrans import Translate
@@ -204,17 +200,41 @@ open('我的小鱼你醒了.mp3', 'wb').write(tts)
 
 [我的小鱼你醒了.mp3](images/我的小鱼你醒了.mp3)
 
-
-
 ### 使用`ApiKeyTranslate`
 
 请参考 [pygtrans文档](https://pygtrans.readthedocs.io/zh_CN/latest/pygtrans.html#module-pygtrans.ApiKeyTranslate)
 
+### 使用`ReadAloud`
 
+```python
+"""Edge大声朗读演示
+
+如果发现速度特别慢, 请前往 `https://www.ipaddress.com/`, 
+对 `speech.platform.bing.com` 和 `azure.microsoft.com`
+进行IP解析, 并反映到 hosts 文件中
+eg:
+    13.107.21.200	speech.platform.bing.com
+    13.107.42.16	azure.microsoft.com
+"""
+from pygtrans import ReadAloud, Voice
+
+if __name__ == '__main__':
+    edge = ReadAloud()
+    # 推荐使用 tts_edge
+    # x = edge.tts_edge('老师, 节日快乐', out='1.mp3')
+    x = edge.tts_azure('老师, 节日快乐', out='1.mp3')
+    print(x)
+    x = edge.tts_azure('老师, 节日快乐', out='2.mp3', voice=Voice.zh_TW_HsiaoChenNeural)
+    print(x)
+    x = edge.tts_azure('老师, 节日快乐', out='3.mp3', voice=Voice.zh_HK_HiuMaanNeural)
+    print(x)
+    x = edge.tts_azure('老师, 节日快乐', out='4.mp3', voice=Voice.zh_CN_YunyangNeural)
+```
 
 ## 本文档可能会滞后, `pip install pygtrans` 亲自尝试下吧~
 
 ### [有问题?](https://github.com/foyoux/pygtrans/issues/new)
+
 ## 欢迎大家反馈和建议
 
 
