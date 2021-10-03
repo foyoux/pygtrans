@@ -38,6 +38,7 @@ badge.svg
 pip-log.txt
 pip-delete-this-directory.txt
 main.py
+.idea/
 # Unit test / coverage reports
 htmlcov/
 .tox/

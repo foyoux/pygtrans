@@ -1,5 +1,7 @@
 # pygtrans 
 
+**从2021年9月15日开始, Translate 需要翻墙才能使用, 具体参考 [#8](https://github.com/foyoux/pygtrans/issues/8)**
+
 **pygtrans**: *python google translate*  
 
 谷歌翻译, 支持 **APIKEY**
