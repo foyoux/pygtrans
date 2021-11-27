@@ -11,9 +11,9 @@ from typing import List, Union, overload, Dict
 
 import requests
 
-from pygtrans.DetectResponse import DetectResponse
-from pygtrans.Null import Null
-from pygtrans.TranslateResponse import TranslateResponse
+from .DetectResponse import DetectResponse
+from .Null import Null
+from .TranslateResponse import TranslateResponse
 
 
 class Translate:
