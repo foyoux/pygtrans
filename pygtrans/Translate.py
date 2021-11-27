@@ -20,7 +20,7 @@ class Translate:
     """
     :param target: str: (可选) 目标语言, 默认: ``zh-CN``, :doc:`查看完整列表 <target>`
     :param source: str: (可选) 源语言, 默认: ``auto`` (自动检测), :doc:`查看完整列表 <source>`
-    :param _format: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``html``
+    :param fmt: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``html``
     :param user_agent: str: (可选) 用户代理, 这个参数很重要, 不设置或错误设置非常容易触发 **429 Too Many Requests** 错误,
         默认: ``GoogleTranslate/6.18.0.06.376053713 (Linux; U; Android 11; GM1900)``, 所以用户可以不用提供.
         这个默认 ``User-Agent`` 很稳定, 暂时未发现 ``429 错误``, 如果出现 ``429``, 建议 **模仿默认 进行构造**,
@@ -62,14 +62,14 @@ class Translate:
             self,
             target: str = 'zh-CN',
             source: str = 'auto',
-            _format='html',
+            fmt='html',
             user_agent: str = None,
             domain: str = 'cn',
             proxies: Dict = None
     ):
         self.target = target
         self.source = source
-        self.format = _format
+        self.fmt = fmt
 
         if user_agent is None:
             user_agent = f'GoogleTranslate/6.{random.randint(10, 100)}.0.06.{random.randint(111111111, 999999999)} (Linux; U; Android {random.randint(5, 11)}; {base64.b64encode(str(random.random())[2:].encode()).decode()})'
@@ -138,24 +138,24 @@ class Translate:
         return DetectResponse(language=rt['src'], confidence=rt['confidence'])
 
     @overload
-    def translate(self, q: str, target: str = None, source: str = None, _format: str = None, ) -> TranslateResponse:
+    def translate(self, q: str, target: str = None, source: str = None, fmt: str = None, ) -> TranslateResponse:
         """..."""
 
     @overload
     def translate(
-            self, q: List[str], target: str = None, source: str = None, _format: str = None
+            self, q: List[str], target: str = None, source: str = None, fmt: str = None
     ) -> List[TranslateResponse]:
         """..."""
 
     def translate(
-            self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None
+            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None
     ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """翻译文本, 支持批量, 支持 html
 
         :param q: str: 字符串或字符串列表
         :param target: str: (可选)  目标语言, 默认: ``self.target``, :doc:`查看支持列表 <target>`
         :param source: str: (可选)  源语言, 默认: ``self.source``, :doc:`查看支持列表 <source>`
-        :param _format: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``self.format``
+        :param fmt: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``self.format``
         :return: 成功则返回: :class:`pygtrans.TranslateResponse.TranslateResponse` 对象,
             或 :class:`pygtrans.TranslateResponse.TranslateResponse` 对象列表, 这取决于 `参数: q` 是字符串还是字符串列表.
             失败则返回 :class:`pygtrans.Null.Null` 对象
@@ -248,12 +248,12 @@ class Translate:
             target = self.target
         if source is None:
             source = self.source
-        if _format is None:
-            _format = self.format
+        if fmt is None:
+            fmt = self.fmt
         response = self.session.post(
             self.TRANSLATE_URL,
             params={'tl': target, 'sl': source, 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at', 'dj': '1',
-                    'format': _format, 'v': v},
+                    'format': fmt, 'v': v},
             data={'q': q}
         )
         return response
