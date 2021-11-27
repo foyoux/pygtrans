@@ -166,7 +166,7 @@ class Translate:
         return response
 
     def tts(self, q: str, target: str = None) -> Union[bytes, Null]:
-        """语音: 实验功能
+        """语音: 实验性功能
 
         :param q: 只支持短语字符串
         :param target: 目标语言
