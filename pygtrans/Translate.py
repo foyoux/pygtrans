@@ -7,6 +7,7 @@
 """
 import base64
 import random
+import time
 from typing import List, Union, overload, Dict
 
 import requests
@@ -85,11 +86,16 @@ class Translate:
             >>> d = client.detect('こんにちは')
             >>> assert d.language == 'ja'
         """
-        response = self.session.post(
-            self.DETECT_URL,
-            params={'dj': 1, 'sl': 'auto', 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at'},
-            data={'q': q}
-        )
+        for _ in range(3):
+            response = self.session.post(
+                self.DETECT_URL,
+                params={'dj': 1, 'sl': 'auto', 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at'},
+                data={'q': q}
+            )
+            if response.status_code == 429:
+                time.sleep(5)
+                continue
+            break
         if response.status_code != 200:
             return Null(response)
         rt = response.json()
@@ -138,8 +144,12 @@ class Translate:
             if q == '':
                 return TranslateResponse('')
 
-        response = self.__translate(q=q, target=target, source=source, fmt=fmt, v='1.0')
-
+        for _ in range(3):
+            response = self.__translate(q=q, target=target, source=source, fmt=fmt, v='1.0')
+            if response.status_code == 429:
+                time.sleep(5)
+                continue
+            break
         if response.status_code == 200:
             ll = [TranslateResponse(translatedText=i) for i in response.json()]
             if isinstance(q, str):
@@ -157,12 +167,17 @@ class Translate:
             source = self.source
         if fmt is None:
             fmt = self.fmt
-        response = self.session.post(
-            self.TRANSLATE_URL,
-            params={'tl': target, 'sl': source, 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at', 'dj': '1',
-                    'format': fmt, 'v': v},
-            data={'q': q}
-        )
+        for _ in range(3):
+            response = self.session.post(
+                self.TRANSLATE_URL,
+                params={'tl': target, 'sl': source, 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at', 'dj': '1',
+                        'format': fmt, 'v': v},
+                data={'q': q}
+            )
+            if response.status_code == 429:
+                time.sleep(5)
+                continue
+            break
         return response
 
     def tts(self, q: str, target: str = None) -> Union[bytes, Null]:
@@ -175,14 +190,19 @@ class Translate:
         if target is None:
             target = self.target
 
-        response = self.session.get(
-            self.TTS_URL,
-            params={
-                'ie': 'UTF-8',
-                'client': 'at',
-                'tl': target,
-                'q': q
-            })
+        for _ in range(3):
+            response = self.session.get(
+                self.TTS_URL,
+                params={
+                    'ie': 'UTF-8',
+                    'client': 'at',
+                    'tl': target,
+                    'q': q
+                })
+            if response.status_code == 429:
+                time.sleep(5)
+                continue
+            break
 
         if response.status_code == 200:
             return response.content

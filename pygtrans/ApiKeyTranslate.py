@@ -7,6 +7,7 @@
     #. 文本翻译, 支持批量, 支持 html 模式翻译
 """
 import math
+import time
 from typing import List, Union, Dict, overload
 
 import requests
@@ -142,11 +143,17 @@ class ApiKeyTranslate:
         ll = []
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
-                response = self.session.post(self._DETECT_URL, params={
-                    'key': self.api_key
-                }, data={
-                    'q': qli
-                })
+                for _ in range(3):
+                    response = self.session.post(self._DETECT_URL, params={
+                        'key': self.api_key
+                    }, data={
+                        'q': qli
+                    })
+                    if response.status_code == 429:
+                        time.sleep(5)
+                        continue
+                    break
+
                 if response.status_code != 200:
                     return Null(response)
                 ll.extend([DetectResponse(**i[0]) for i in response.json()['data']['detections']])
@@ -212,9 +219,14 @@ class ApiKeyTranslate:
         ll = []
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
-                response = self.session.post(self._BASE_URL, params={
-                    'key': self.api_key, 'target': target, 'source': source, 'format': fmt, 'model': model
-                }, data={'q': qli})
+                for _ in range(3):
+                    response = self.session.post(self._BASE_URL, params={
+                        'key': self.api_key, 'target': target, 'source': source, 'format': fmt, 'model': model
+                    }, data={'q': qli})
+                    if response.status_code == 429:
+                        time.sleep(5)
+                        continue
+                    break
 
                 if response.status_code != 200:
                     return Null(response)
