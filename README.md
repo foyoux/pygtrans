@@ -77,16 +77,16 @@ open('やめて.mp3', 'wb').write(tts)
 1. `pygtrans`中包含两个翻译模块
    1. `Translate`: 
       - 完全免费，支持批量
-      - 从2021年9月15日开始, 需要翻墙才能使用, 具体参考 #8
+      - 从2021年9月15日开始, 需要翻墙才能使用, 具体参考 [#8](https://github.com/foyoux/pygtrans/issues/8)
    2. `ApiKeyTranslate`: 需要有效的谷歌翻译 **API KEY**，[谷歌提供免费试用](https://cloud.google.com/translate/docs/quickstarts)
 2. `Translate`的最佳实践:
    1. 准备好代理VPN，建议 **v2rayN** https://github.com/2dust/v2rayN
-   2. 使用 **clash** 进行代理，将会导致失败，参考 #13
+   2. 使用 **clash** 进行代理，将会导致失败，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)
    3. 建议不要打开全局代理
    4. `http` example：`Translate(proxies={"https": "http://localhost:10809"})`
    5. `socks5` example: `Translate(proxies={"https": "socks5://localhost:10808"})`
-   6. **重要**：尽量一次性多翻译，减少请求次数，参考 #13
-   7. **重要**：尽量一次性多翻译，减少请求次数，参考 #13
-   8. **重要**：尽量一次性多翻译，减少请求次数，参考 #13
+   6. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)
+   7. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)
+   8. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)
 
 ​	
