@@ -11,15 +11,15 @@ from typing import List, Union, Dict, overload
 
 import requests
 
-from pygtrans.DetectResponse import DetectResponse
-from pygtrans.LanguageResponse import LanguageResponse
-from pygtrans.Null import Null
-from pygtrans.TranslateResponse import TranslateResponse
+from .DetectResponse import DetectResponse
+from .LanguageResponse import LanguageResponse
+from .Null import Null
+from .TranslateResponse import TranslateResponse
 
 
 def split_list(obj_list: List, sub_size: int = 128) -> List[list]:
-    """
-    split list
+    """split list
+
     :param obj_list: list object
     :param sub_size: sub list size
     :return: List[list]
@@ -50,7 +50,7 @@ class ApiKeyTranslate:
     :param api_key: str: 谷歌云翻译APIKEY, `查看详情 <https://cloud.google.com/docs/authentication/api-keys>`_
     :param target: str: (可选) 目标语言, 默认: ``zh-CN``, :doc:`参考列表 <target>`
     :param source: str: (可选) 源语言, 默认: ``auto`` (自动检测), :doc:`参考列表 <source>`
-    :param _format: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``html``
+    :param fmt: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``html``
     :param model: str: (可选) 翻译模型. 可以是 base 使用 Phrase-Based Machine Translation (PBMT) 模型，
         或者 nmt 使用 Neural Machine Translation (NMT) 模型。如果省略，则使用 nmt。如果模型是 nmt，
         并且 NMT 模型不支持请求的语言翻译对，则使用 PBMT 模型翻译请求。
@@ -58,11 +58,7 @@ class ApiKeyTranslate:
 
     基本用法:
         >>> from pygtrans import ApiKeyTranslate
-        >>> from pygtrans import __apikey__
-        >>> client = ApiKeyTranslate(api_key=__apikey__, proxies={
-        ...     'http': 'http://127.0.0.1:10809',
-        ...     'https': 'http://127.0.0.1:10809',
-        ... })
+        >>> client = ApiKeyTranslate(api_key='<api_key>')
         >>> langs = client.languages()  # 此种方式的语言列表, 请使用此方法获取
         >>> langs[0]
         LanguageResponse(language='sq', name='阿尔巴尼亚语')
@@ -81,22 +77,26 @@ class ApiKeyTranslate:
         >>> texts[1].detectedSourceLanguage
         'ja'
     """
-    # BASE_URL: str = 'https://www.googleapis.com/language/translate/v2'
     _BASE_URL: str = 'https://translation.googleapis.com/language/translate/v2'
     _LANGUAGE_URL: str = f'{_BASE_URL}/languages'
     _DETECT_URL: str = f'{_BASE_URL}/detect'
     _LIMIT_SIZE = 102400
 
     def __init__(
-            self, api_key: str, target: str = 'zh-CN', source: str = None, _format: str = 'html', model: str = 'nmt',
+            self, api_key: str,
+            target: str = 'zh-CN',
+            source: str = None,
+            fmt: str = 'html',
+            model: str = 'nmt',
             proxies: Dict = None
     ):
         self.api_key = api_key
         self.target = target
         if source == 'auto':
+            # '不提供' 替换 'auto'，'auto' 会导致 400，参数错误。
             source = None
         self.source = source
-        self.format = _format
+        self.fmt = fmt
         self.model = model
         self.session = requests.Session()
 
@@ -132,11 +132,7 @@ class ApiKeyTranslate:
 
         基本用法:
             >>> from pygtrans import ApiKeyTranslate
-            >>> from pygtrans import __apikey__
-            >>> client = ApiKeyTranslate(api_key=__apikey__, proxies={
-            ...     'http': 'http://127.0.0.1:10809',
-            ...     'https': 'http://127.0.0.1:10809',
-            ... })
+            >>> client = ApiKeyTranslate(api_key='<api_key>')
             >>> d1 = client.detect('Hello')
             >>> d1.language
             'en'
@@ -160,18 +156,18 @@ class ApiKeyTranslate:
 
     @overload
     def translate(
-            self, q: str, target: str = None, source: str = None, _format: str = None, model: str = None
+            self, q: str, target: str = None, source: str = None, fmt: str = None, model: str = None
     ) -> TranslateResponse:
         """..."""
 
     @overload
     def translate(
-            self, q: List[str], target: str = None, source: str = None, _format: str = None, model: str = None
+            self, q: List[str], target: str = None, source: str = None, fmt: str = None, model: str = None
     ) -> List[TranslateResponse]:
         """..."""
 
     def translate(
-            self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None,
+            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None,
             model: str = None
     ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """文本翻译, 支持批量
@@ -179,7 +175,7 @@ class ApiKeyTranslate:
         :param q: str: 字符串或字符串列表
         :param target: str: (可选)  目标语言, 默认: ``self.target``, :doc:`查看支持列表 <target>`
         :param source: str: (可选)  源语言, 默认: ``self.source``, :doc:`查看支持列表 <source>`
-        :param _format: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``self.format``
+        :param fmt: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``self.format``
         :param model: str: (可选) 翻译模型, ``nmt`` | ``pbmt``, 默认: ``self.model``
         :return: 成功则返回: :class:`pygtrans.TranslateResponse.TranslateResponse` 对象,
             或 :class:`pygtrans.TranslateResponse.TranslateResponse` 对象列表, 这取决于 `参数: q` 是字符串还是字符串列表.
@@ -191,11 +187,7 @@ class ApiKeyTranslate:
 
         基本用法:
             >>> from pygtrans import ApiKeyTranslate
-            >>> from pygtrans import __apikey__
-            >>> client = ApiKeyTranslate(api_key=__apikey__, proxies={
-            ...     'http': 'http://127.0.0.1:10809',
-            ...     'https': 'http://127.0.0.1:10809',
-            ... })
+            >>> client = ApiKeyTranslate(api_key='<api_key>')
             >>> text = client.translate('Google Translate')
             >>> text.translatedText
             '谷歌翻译'
@@ -212,8 +204,8 @@ class ApiKeyTranslate:
             source = None
         if source is None:
             source = self.source
-        if _format is None:
-            _format = self.format
+        if fmt is None:
+            fmt = self.fmt
         if model is None:
             model = self.model
 
@@ -221,7 +213,7 @@ class ApiKeyTranslate:
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
                 response = self.session.post(self._BASE_URL, params={
-                    'key': self.api_key, 'target': target, 'source': source, 'format': _format, 'model': model
+                    'key': self.api_key, 'target': target, 'source': source, 'format': fmt, 'model': model
                 }, data={'q': qli})
 
                 if response.status_code != 200:
