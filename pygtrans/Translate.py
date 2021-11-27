@@ -41,17 +41,6 @@ class Translate:
         ...     print(text.translatedText)
         Batch test
         Batch translation
-
-    ..  >>> 文档测试
-        >>> assert client.target == 'zh-CN'
-        >>> assert client.source == 'auto'
-        >>> assert client.format == 'html'
-        >>> assert client.session.headers['User-Agent'] == 'GoogleTranslate/6.18.0.06.376053713 (Linux; U; Android 11; GM1900)'
-        >>> assert client.BASE_URL == 'https://translate.google.cn'
-        >>> assert client.DETECT_URL == 'https://translate.google.cn/translate_a/single'
-        >>> assert client.LANGUAGE_URL == 'https://translate.google.cn/translate_a/l'
-        >>> assert client.TRANSLATE_URL == 'https://translate.google.cn/translate_a/t'
-
     """
 
     def __init__(
