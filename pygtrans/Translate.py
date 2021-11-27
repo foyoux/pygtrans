@@ -49,7 +49,7 @@ class Translate:
             source: str = 'auto',
             fmt='html',
             user_agent: str = None,
-            domain: str = 'cn',
+            domain: str = 'com',
             proxies: Dict = None
     ):
         self.target = target
