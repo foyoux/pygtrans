@@ -26,11 +26,7 @@ class Translate:
         这个默认 ``User-Agent`` 很稳定, 暂时未发现 ``429 错误``, 如果出现 ``429``, 建议 **模仿默认 进行构造**,
         或者进行 `反馈 <https://github.com/foyoux/pygtrans/issues/new>`_
     :param domain: str: (可选) 域名 ``google.com`` 及其可用平行域名 (如: ``google.cn``), 默认: ``google.cn``
-    :param proxies: (可选) eg: proxies = {
-            'http': 'http://localhost:10809',
-            'https': 'http://localhost:10809'
-        }
-
+    :param proxies: (可选) eg: proxies = {'http': 'http://localhost:10809', 'https': 'http://localhost:10809'}
 
     基本用法:
         >>> from pygtrans import Translate
