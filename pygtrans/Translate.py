@@ -72,33 +72,6 @@ class Translate:
         if proxies is not None:
             self.session.proxies = proxies
 
-    # @lru_cache
-    # def languages(self, target: str = None) -> List[LanguageResponse]:
-    #     """获取语言列表
-    #
-    #     :param target: 列表显示的语言, 默认: ``self.target``
-    #     :return: 返回 :func:`pygtrans.LanguageResponse.LanguageResponse` 对象列表
-    #
-    #     基本用法:
-    #         >>> from pygtrans import Translate
-    #         >>> client = Translate()
-    #         >>> langs = client.languages()
-    #         >>> langs[0]
-    #         LanguageResponse(language='auto', name='检测语言')
-    #     """
-    #     if target is None:
-    #         target = self.target
-    #     response = self.session.get(self.LANGUAGE_URL, params={
-    #         'hl': target,
-    #         'ie': 'UTF-8',
-    #         'oe': 'UTF-8',
-    #         'client': 'at'
-    #     })
-    #     if response.status_code != 200:
-    #         return Null(response)
-    #     return [LanguageResponse(language=i[0], name=i[1]) for i in response.json()['sl'].items()]
-    #     # return [LanguageResponse(language=i[0], name=i[1]) for i in response.json()['tl'].items()]
-
     def detect(self, q: str) -> Union[DetectResponse, Null]:
         """语言检测
 
