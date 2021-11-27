@@ -138,7 +138,7 @@ class Translate:
             if q == '':
                 return TranslateResponse('')
 
-        response = self._translate(q=q, target=target, source=source, _format=_format, v='1.0')
+        response = self.__translate(q=q, target=target, source=source, fmt=fmt, v='1.0')
 
         if response.status_code == 200:
             ll = [TranslateResponse(translatedText=i) for i in response.json()]
@@ -148,59 +148,8 @@ class Translate:
 
         return Null(response)
 
-    @overload
-    def translate_and_detect(
-            self, q: str, target: str = None, source: str = None, _format: str = None
-    ) -> TranslateResponse:
-        """..."""
-
-    @overload
-    def translate_and_detect(
-            self, q: List[str], target: str = None, source: str = None, _format: str = None
-    ) -> List[TranslateResponse]:
-        """..."""
-
-    def translate_and_detect(
-            self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None
-    ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
-        """与 :class:`translate` 相同, 区别是 ``TranslateResponse`` 对象的 ``detectedSourceLanguage`` 属性可用
-
-        基本用法:
-            >>> from pygtrans import Translate
-            >>> client = Translate()
-            >>> text = client.translate_and_detect('Hello, Google')
-            >>> text.translatedText
-            '你好，谷歌'
-            >>> text.detectedSourceLanguage
-            'en'
-            >>> texts = client.translate_and_detect(['批量测试', '批量翻译'], target='en')
-            >>> for text in texts:
-            ...     print(text.detectedSourceLanguage)
-            zh-CN
-            zh-CN
-        """
-
-        if not q:
-            return []
-
-        if isinstance(q, str):
-            if q == '':
-                return TranslateResponse('')
-
-        response = self._translate(q=q, target=target, source=source, _format=_format)
-
-        if response.status_code == 200:
-            rt = response.json()
-            if isinstance(q, str):
-                return TranslateResponse(translatedText=rt['sentences'][0]['trans'],
-                                         detectedSourceLanguage=rt['src'])
-            return [TranslateResponse(translatedText=i['sentences'][0]['trans'],
-                                      detectedSourceLanguage=i['src']) for i in
-                    rt['results']]
-        return Null(response)
-
-    def _translate(
-            self, q: Union[str, List[str]], target: str = None, source: str = None, _format: str = None, v: str = None
+    def __translate(
+            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None, v: str = None
     ):
         if target is None:
             target = self.target
