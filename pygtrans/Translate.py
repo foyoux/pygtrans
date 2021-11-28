@@ -26,12 +26,12 @@ class Translate:
         默认: ``GoogleTranslate/6.18.0.06.376053713 (Linux; U; Android 11; GM1900)``, 所以用户可以不用提供.
         这个默认 ``User-Agent`` 很稳定, 暂时未发现 ``429 错误``, 如果出现 ``429``, 建议 **模仿默认 进行构造**,
         或者进行 `反馈 <https://github.com/foyoux/pygtrans/issues/new>`_
-    :param domain: str: (可选) 域名 ``google.com`` 及其可用平行域名 (如: ``google.cn``), 默认: ``google.cn``
+    :param domain: str: (可选) 域名 ``google.com`` 及其可用平行域名 (如: ``google.cn``), 默认: ``google.com``
     :param proxies: (可选) eg: proxies = {'http': 'http://localhost:10809', 'https': 'http://localhost:10809'}
 
     基本用法:
         >>> from pygtrans import Translate
-        >>> client = Translate()
+        >>> client = Translate(proxies={'http': 'http://localhost:10809', 'https': 'http://localhost:10809'})
         >>> client.detect('谷歌翻译').language
         'zh-CN'
         >>> text = client.translate('Hello, Google')
@@ -82,7 +82,7 @@ class Translate:
 
         基本用法:
             >>> from pygtrans import Translate
-            >>> client = Translate()
+            >>> client = Translate(proxies={'http': 'http://localhost:10809', 'https': 'http://localhost:10809'})
             >>> d = client.detect('こんにちは')
             >>> assert d.language == 'ja'
         """
@@ -126,7 +126,7 @@ class Translate:
 
         基本用法:
             >>> from pygtrans import Translate
-            >>> client = Translate()
+            >>> client = Translate(proxies={'http': 'http://localhost:10809', 'https': 'http://localhost:10809'})
             >>> text = client.translate('Hello, Google')
             >>> text.translatedText
             '你好，谷歌'
