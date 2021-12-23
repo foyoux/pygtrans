@@ -82,7 +82,7 @@ open('やめて.mp3', 'wb').write(tts)
 2. `Translate`的最佳实践:
    1. 准备好代理VPN，建议 **v2rayN** https://github.com/2dust/v2rayN
    2. 使用 **clash** 进行代理，将会导致失败，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)
-   2. 使用 **conda/miniconda** 的虚拟环境也可能导致失败 [#15](https://github.com/foyoux/pygtrans/issues/15)
+   2. ~~使用 **conda/miniconda** 的虚拟环境也可能导致失败 [#15](https://github.com/foyoux/pygtrans/issues/15)~~
    3. 建议不要打开全局代理
    4. `http` example：`Translate(proxies={"https": "http://localhost:10809"})`
    5. `socks5` example: `Translate(proxies={"https": "socks5://localhost:10808"})`
@@ -90,4 +90,3 @@ open('やめて.mp3', 'wb').write(tts)
    7. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译 2000 / 5000 / 10000
    8. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译 2000 / 5000 / 10000
 
-​	

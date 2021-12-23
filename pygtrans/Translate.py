@@ -71,6 +71,7 @@ class Translate:
         self.TTS_URL: str = f'{self.BASE_URL}/translate_tts'
 
         if proxies is not None:
+            self.session.trust_env = False
             self.session.proxies = proxies
 
     def detect(self, q: str) -> Union[DetectResponse, Null]:
