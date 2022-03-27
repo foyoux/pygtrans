@@ -5,7 +5,6 @@
     #. 语言检测, 支持批量检测
     #. 文本翻译, 支持批量, 支持 html 模式翻译
 """
-import base64
 import random
 import time
 from typing import List, Union, overload, Dict
@@ -58,7 +57,11 @@ class Translate:
         self.fmt = fmt
 
         if user_agent is None:
-            user_agent = f'GoogleTranslate/6.{random.randint(10, 100)}.0.06.{random.randint(111111111, 999999999)} (Linux; U; Android {random.randint(5, 11)}; {base64.b64encode(str(random.random())[2:].encode()).decode()})'
+            user_agent = (
+                f'GoogleTranslate/6.{random.randint(10, 100)}.0.06.{random.randint(111111111, 999999999)}'
+                ' (Linux; U; Android {random.randint(5, 11)}; {base64.b64encode(str(random.random())['
+                '2:].encode()).decode()}) '
+            )
 
         self.session = requests.Session()
         self.session.headers = {
@@ -97,6 +100,7 @@ class Translate:
                 time.sleep(5)
                 continue
             break
+        # noinspection PyUnboundLocalVariable
         if response.status_code != 200:
             return Null(response)
         rt = response.json()
@@ -151,6 +155,7 @@ class Translate:
                 time.sleep(5)
                 continue
             break
+        # noinspection PyUnboundLocalVariable
         if response.status_code == 200:
             ll = [TranslateResponse(translatedText=i) for i in response.json()]
             if isinstance(q, str):
@@ -179,6 +184,7 @@ class Translate:
                 time.sleep(5)
                 continue
             break
+        # noinspection PyUnboundLocalVariable
         return response
 
     def tts(self, q: str, target: str = None) -> Union[bytes, Null]:
@@ -204,7 +210,7 @@ class Translate:
                 time.sleep(5)
                 continue
             break
-
+        # noinspection PyUnboundLocalVariable
         if response.status_code == 200:
             return response.content
         return Null(response)

@@ -102,6 +102,7 @@ class ApiKeyTranslate:
         self.session = requests.Session()
 
         if proxies is not None:
+            self.session.trust_env = False
             self.session.proxies = proxies
 
     def languages(self, target: str = None, model: str = None) -> Union[List[LanguageResponse], Null]:
@@ -153,7 +154,7 @@ class ApiKeyTranslate:
                         time.sleep(5)
                         continue
                     break
-
+                # noinspection PyUnboundLocalVariable
                 if response.status_code != 200:
                     return Null(response)
                 ll.extend([DetectResponse(**i[0]) for i in response.json()['data']['detections']])
@@ -227,7 +228,7 @@ class ApiKeyTranslate:
                         time.sleep(5)
                         continue
                     break
-
+                # noinspection PyUnboundLocalVariable
                 if response.status_code != 200:
                     return Null(response)
 
