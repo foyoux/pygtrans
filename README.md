@@ -1,11 +1,9 @@
-# pygtrans 
+# pygtrans
 
 谷歌翻译, 支持 **APIKEY**
 
-- [github](https://github.com/foyoux/pygtrans)
-- [pypi](https://pypi.org/project/pygtrans/)
-- [文档](https://pygtrans.readthedocs.io/zh_CN/latest/)
-- [旧 README](images/old_README.md)
+- [Github](https://github.com/foyoux/pygtrans)
+- [语言支持列表](https://pygtrans.readthedocs.io/zh_CN/latest/langs.html)
 
 [![](https://img.shields.io/github/v/release/foyoux/pygtrans)](https://github.com/foyoux/pygtrans/releases) ![](https://img.shields.io/github/last-commit/foyoux/pygtrans) [![Downloads](https://static.pepy.tech/personalized-badge/pygtrans?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pygtrans)
 
@@ -20,14 +18,12 @@ pip install -U pygtrans
 ```
 
 
-
 ## 基本功能
 
 - [x] 获取语言支持列表
 - [x] 自动检测语言, 支持批量
 - [x] 文本/HTML 翻译, 支持批量
 - [x] 支持 TTS
-
 
 
 ## 快速入门
@@ -80,13 +76,7 @@ open('やめて.mp3', 'wb').write(tts)
       - 从2021年9月15日开始, 需要翻墙才能使用, 具体参考 [#8](https://github.com/foyoux/pygtrans/issues/8)
    2. `ApiKeyTranslate`: 需要有效的谷歌翻译 **API KEY**，[谷歌提供免费试用](https://cloud.google.com/translate/docs/quickstarts)
 2. `Translate`的最佳实践:
-   1. 准备好代理VPN，建议 **v2rayN** https://github.com/2dust/v2rayN
-   2. 使用 **clash** 进行代理，将会导致失败，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)
-   2. ~~使用 **conda/miniconda** 的虚拟环境也可能导致失败 [#15](https://github.com/foyoux/pygtrans/issues/15)~~
-   3. 建议不要打开全局代理
-   4. `http` example：`Translate(proxies={"https": "http://localhost:10809"})`
-   5. `socks5` example: `Translate(proxies={"https": "socks5://localhost:10808"})`
-   6. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译 2000 / 5000 / 10000
-   7. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译 2000 / 5000 / 10000
-   8. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译 2000 / 5000 / 10000
+   1. `http` 代理：`Translate(proxies={"https": "http://localhost:10809"})`
+   2. `socks5` 代理: `Translate(proxies={"https": "socks5://localhost:10808"})`
+   3. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译 2000 / 5000 / 10000
 
