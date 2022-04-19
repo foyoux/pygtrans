@@ -144,14 +144,14 @@ class ApiKeyTranslate:
         ll = []
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
-                for _ in range(3):
+                for i in range(1, 4):
                     response = self.session.post(self._DETECT_URL, params={
                         'key': self.api_key
                     }, data={
                         'q': qli
                     })
                     if response.status_code == 429:
-                        time.sleep(5)
+                        time.sleep(5 * i)
                         continue
                     break
                 # noinspection PyUnboundLocalVariable
@@ -220,12 +220,12 @@ class ApiKeyTranslate:
         ll = []
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
-                for _ in range(3):
+                for i in range(1, 4):
                     response = self.session.post(self._BASE_URL, params={
                         'key': self.api_key, 'target': target, 'source': source, 'format': fmt, 'model': model
                     }, data={'q': qli})
                     if response.status_code == 429:
-                        time.sleep(5)
+                        time.sleep(5 * i)
                         continue
                     break
                 # noinspection PyUnboundLocalVariable

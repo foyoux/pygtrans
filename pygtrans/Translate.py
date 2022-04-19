@@ -90,14 +90,14 @@ class Translate:
             >>> d = client.detect('こんにちは')
             >>> assert d.language == 'ja'
         """
-        for _ in range(3):
+        for i in range(1, 4):
             response = self.session.post(
                 self.DETECT_URL,
                 params={'dj': 1, 'sl': 'auto', 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at'},
                 data={'q': q}
             )
             if response.status_code == 429:
-                time.sleep(5)
+                time.sleep(5 * i)
                 continue
             break
         # noinspection PyUnboundLocalVariable
@@ -149,10 +149,10 @@ class Translate:
             if q == '':
                 return TranslateResponse('')
 
-        for _ in range(3):
+        for i in range(1, 4):
             response = self.__translate(q=q, target=target, source=source, fmt=fmt, v='1.0')
             if response.status_code == 429:
-                time.sleep(5)
+                time.sleep(5 * i)
                 continue
             break
         # noinspection PyUnboundLocalVariable
@@ -173,7 +173,7 @@ class Translate:
             source = self.source
         if fmt is None:
             fmt = self.fmt
-        for _ in range(3):
+        for i in range(1, 4):
             response = self.session.post(
                 self.TRANSLATE_URL,
                 params={'tl': target, 'sl': source, 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at', 'dj': '1',
@@ -181,7 +181,7 @@ class Translate:
                 data={'q': q}
             )
             if response.status_code == 429:
-                time.sleep(5)
+                time.sleep(5 * i)
                 continue
             break
         # noinspection PyUnboundLocalVariable
@@ -197,7 +197,7 @@ class Translate:
         if target is None:
             target = self.target
 
-        for _ in range(3):
+        for i in range(1, 4):
             response = self.session.get(
                 self.TTS_URL,
                 params={
@@ -207,7 +207,7 @@ class Translate:
                     'q': q
                 })
             if response.status_code == 429:
-                time.sleep(5)
+                time.sleep(5 * i)
                 continue
             break
         # noinspection PyUnboundLocalVariable
