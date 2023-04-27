@@ -13,7 +13,8 @@ class TranslateResponse:
         """
         if isinstance(translatedText, list):
             self.translatedText = translatedText[0]
-            self.detectedSourceLanguage = translatedText[1]
+            if len(translatedText) > 1:
+                self.detectedSourceLanguage = translatedText[1]
         else:
             self.translatedText = translatedText
             self.detectedSourceLanguage = detectedSourceLanguage
