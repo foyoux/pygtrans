@@ -40,8 +40,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: dist/*
-      #- name: pypi-publish
-      #  uses: pypa/gh-action-pypi-publish@release/v1
-      #  with:
-      #    user: __token__
-      #    password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: pypi-publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
