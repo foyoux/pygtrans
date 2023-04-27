@@ -15,6 +15,8 @@
 
 ```bash
 pip install -U pygtrans
+pip install git+ssh://git@github.com/foyoux/pygtrans.git
+pip install git+https://github.com/foyoux/pygtrans.git
 ```
 
 
