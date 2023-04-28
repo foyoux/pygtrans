@@ -1,6 +1,7 @@
 """TranslateResponse"""
 
 
+# noinspection PyPep8Naming
 class TranslateResponse:
     """TranslateResponse"""
 
@@ -15,6 +16,8 @@ class TranslateResponse:
             self.translatedText = translatedText[0]
             if len(translatedText) > 1:
                 self.detectedSourceLanguage = translatedText[1]
+            else:
+                self.detectedSourceLanguage = None
         else:
             self.translatedText = translatedText
             self.detectedSourceLanguage = detectedSourceLanguage
