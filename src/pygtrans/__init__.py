@@ -1,4 +1,5 @@
 """谷歌翻译"""
+import logging
 
 from .ApiKeyTranslate import ApiKeyTranslate
 from .DetectResponse import DetectResponse
@@ -20,3 +21,14 @@ __ide__ = 'PyCharm - https://www.jetbrains.com/pycharm/'
 __all__ = [
     'Translate', 'ApiKeyTranslate', 'Null', 'LanguageResponse', 'DetectResponse', 'TranslateResponse'
 ]
+
+log = logging.getLogger('pygtrans')
+_handler = logging.StreamHandler()
+_handler.setFormatter(
+    logging.Formatter(
+        fmt=f'%(asctime)s datclass.%(levelname)s %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+)
+log.addHandler(_handler)
+log.setLevel(logging.INFO)
