@@ -89,10 +89,12 @@ class ApiKeyTranslate:
             source: str = None,
             fmt: str = 'html',
             model: str = 'nmt',
-            proxies: Dict = None
+            proxies: Dict = None,
+            timeout=None
     ):
         self.api_key = api_key
         self.target = target
+        self.timeout = timeout
         if source == 'auto':
             # '不提供' 替换 'auto'，'auto' 会导致 400，参数错误。
             source = None
@@ -105,29 +107,33 @@ class ApiKeyTranslate:
             self.session.trust_env = False
             self.session.proxies = proxies
 
-    def languages(self, target: str = None, model: str = None) -> Union[List[LanguageResponse], Null]:
+    def languages(self, target: str = None, model: str = None, timeout=...) -> Union[List[LanguageResponse], Null]:
         """语言支持列表"""
         if target is None:
             target = self.target
         if model is None:
             model = self.model
-        response = self.session.get(self._LANGUAGE_URL, params={'key': self.api_key, 'target': target, 'model': model})
+        if timeout is ...:
+            timeout = self.timeout
+        response = self.session.get(self._LANGUAGE_URL, params={'key': self.api_key, 'target': target, 'model': model},
+                                    timeout=timeout)
         if response.status_code == 200:
             return [LanguageResponse(**i) for i in response.json()['data']['languages']]
         return Null(response)
 
     @overload
-    def detect(self, q: str) -> DetectResponse:
+    def detect(self, q: str, timeout=...) -> DetectResponse:
         """..."""
 
     @overload
-    def detect(self, q: List[str]) -> List[DetectResponse]:
+    def detect(self, q: List[str], timeout=...) -> List[DetectResponse]:
         """..."""
 
-    def detect(self, q: Union[str, List[str]]) -> Union[DetectResponse, List[DetectResponse], Null]:
+    def detect(self, q: Union[str, List[str]], timeout=...) -> Union[DetectResponse, List[DetectResponse], Null]:
         """语言检测, 支持批量
 
         :param q: 字符串或字符串列表
+        :param timeout: 超时时间， int | None
         :return: 成功则返回: :class:`pygtrans.TranslateResponse.DetectResponse` 对象,
             或 :class:`pygtrans.TranslateResponse.DetectResponse` 对象列表, 这取决于 `参数: q` 是字符串还是字符串列表.
             失败则返回 :class:`pygtrans.Null.Null` 对象
@@ -141,15 +147,14 @@ class ApiKeyTranslate:
             >>> assert isinstance(client.detect(['Hello', 'Google']), list)
 
         """
+        if timeout is ...:
+            timeout = self.timeout
         ll = []
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
                 for i in range(1, 4):
-                    response = self.session.post(self._DETECT_URL, params={
-                        'key': self.api_key
-                    }, data={
-                        'q': qli
-                    })
+                    response = self.session.post(self._DETECT_URL, params={'key': self.api_key}, data={'q': qli},
+                                                 timeout=timeout)
                     if response.status_code == 429:
                         time.sleep(5 * i)
                         continue
@@ -164,19 +169,19 @@ class ApiKeyTranslate:
 
     @overload
     def translate(
-            self, q: str, target: str = None, source: str = None, fmt: str = None, model: str = None
+            self, q: str, target: str = None, source: str = None, fmt: str = None, model: str = None, timeout=...
     ) -> TranslateResponse:
         """..."""
 
     @overload
     def translate(
-            self, q: List[str], target: str = None, source: str = None, fmt: str = None, model: str = None
+            self, q: List[str], target: str = None, source: str = None, fmt: str = None, model: str = None, timeout=...
     ) -> List[TranslateResponse]:
         """..."""
 
     def translate(
             self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None,
-            model: str = None
+            model: str = None, timeout=...
     ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """文本翻译, 支持批量
 
@@ -185,6 +190,7 @@ class ApiKeyTranslate:
         :param source: str: (可选)  源语言, 默认: ``self.source``, :doc:`查看支持列表 <source>`
         :param fmt: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``self.format``
         :param model: str: (可选) 翻译模型, ``nmt`` | ``pbmt``, 默认: ``self.model``
+        :param timeout: 超时时间， int | None
         :return: 成功则返回: :class:`pygtrans.TranslateResponse.TranslateResponse` 对象,
             或 :class:`pygtrans.TranslateResponse.TranslateResponse` 对象列表, 这取决于 `参数: q` 是字符串还是字符串列表.
             失败则返回 :class:`pygtrans.Null.Null` 对象
@@ -216,14 +222,15 @@ class ApiKeyTranslate:
             fmt = self.fmt
         if model is None:
             model = self.model
-
+        if timeout is ...:
+            timeout = self.timeout
         ll = []
         for ql in split_list(q):
             for qli in split_list_by_content_size(ql):
                 for i in range(1, 4):
                     response = self.session.post(self._BASE_URL, params={
                         'key': self.api_key, 'target': target, 'source': source, 'format': fmt, 'model': model
-                    }, data={'q': qli})
+                    }, data={'q': qli}, timeout=timeout)
                     if response.status_code == 429:
                         time.sleep(5 * i)
                         continue
