@@ -50,11 +50,13 @@ class Translate:
             fmt='html',
             user_agent: str = None,
             domain: str = 'com',
-            proxies: Dict = None
+            proxies: Dict = None,
+            timeout: int = None
     ):
         self.target = target
         self.source = source
         self.fmt = fmt
+        self.timeout = timeout
 
         if user_agent is None:
             user_agent = (
@@ -77,10 +79,11 @@ class Translate:
             self.session.trust_env = False
             self.session.proxies = proxies
 
-    def detect(self, q: str) -> Union[DetectResponse, Null]:
+    def detect(self, q: str, timeout=...) -> Union[DetectResponse, Null]:
         """语言检测
 
         :param q: 需要检测的内容, 不支持批量, 如需批量, 请参阅: :func:`translate_and_detect`.
+        :param timeout: 超时时间， int | None
         :return: 成功则返回 :class:`pygtrans.DetectResponse.DetectResponse` 对象,
             失败则返回 :class:`pygtrans.Null.Null` 对象
 
@@ -90,11 +93,13 @@ class Translate:
             >>> d = client.detect('こんにちは')
             >>> assert d.language == 'ja'
         """
+        if timeout is ...:
+            timeout = self.timeout
         for i in range(1, 4):
             response = self.session.post(
                 self.DETECT_URL,
                 params={'dj': 1, 'sl': 'auto', 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at'},
-                data={'q': q}
+                data={'q': q}, timeout=timeout
             )
             if response.status_code == 429:
                 time.sleep(5 * i)
@@ -107,17 +112,18 @@ class Translate:
         return DetectResponse(language=rt['src'], confidence=rt['confidence'])
 
     @overload
-    def translate(self, q: str, target: str = None, source: str = None, fmt: str = None, ) -> TranslateResponse:
+    def translate(self, q: str, target: str = None, source: str = None, fmt: str = None,
+                  timeout=...) -> TranslateResponse:
         """..."""
 
     @overload
     def translate(
-            self, q: List[str], target: str = None, source: str = None, fmt: str = None
+            self, q: List[str], target: str = None, source: str = None, fmt: str = None, timeout=...
     ) -> List[TranslateResponse]:
         """..."""
 
     def translate(
-            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None
+            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None, timeout=...
     ) -> Union[TranslateResponse, List[TranslateResponse], Null]:
         """翻译文本, 支持批量, 支持 html
 
@@ -125,6 +131,7 @@ class Translate:
         :param target: str: (可选)  目标语言, 默认: ``self.target``, :doc:`查看支持列表 <target>`
         :param source: str: (可选)  源语言, 默认: ``self.source``, :doc:`查看支持列表 <source>`
         :param fmt: str: (可选) 文本格式, ``text`` | ``html``, 默认: ``self.format``
+        :param timeout: 超时时间， int | None
         :return: 成功则返回: :class:`pygtrans.TranslateResponse.TranslateResponse` 对象,
             或 :class:`pygtrans.TranslateResponse.TranslateResponse` 对象列表, 这取决于 `参数: q` 是字符串还是字符串列表.
             失败则返回 :class:`pygtrans.Null.Null` 对象
@@ -145,12 +152,15 @@ class Translate:
         if not q:
             return []
 
+        if timeout is ...:
+            timeout = self.timeout
+
         if isinstance(q, str):
             if q == '':
                 return TranslateResponse('')
 
         for i in range(1, 4):
-            response = self.__translate(q=q, target=target, source=source, fmt=fmt, v='1.0')
+            response = self.__translate(q=q, target=target, source=source, fmt=fmt, v='1.0', timeout=timeout)
             if response.status_code == 429:
                 time.sleep(5 * i)
                 continue
@@ -165,7 +175,8 @@ class Translate:
         return Null(response)
 
     def __translate(
-            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None, v: str = None
+            self, q: Union[str, List[str]], target: str = None, source: str = None, fmt: str = None, v: str = None,
+            timeout=...
     ):
         if target is None:
             target = self.target
@@ -173,12 +184,14 @@ class Translate:
             source = self.source
         if fmt is None:
             fmt = self.fmt
+        if timeout is ...:
+            timeout = self.timeout
         for i in range(1, 4):
             response = self.session.post(
                 self.TRANSLATE_URL,
                 params={'tl': target, 'sl': source, 'ie': 'UTF-8', 'oe': 'UTF-8', 'client': 'at', 'dj': '1',
                         'format': fmt, 'v': v},
-                data={'q': q}
+                data={'q': q}, timeout=timeout
             )
             if response.status_code == 429:
                 time.sleep(5 * i)
@@ -187,15 +200,19 @@ class Translate:
         # noinspection PyUnboundLocalVariable
         return response
 
-    def tts(self, q: str, target: str = None) -> Union[bytes, Null]:
+    def tts(self, q: str, target: str = None, timeout=...) -> Union[bytes, Null]:
         """语音: 实验性功能
 
         :param q: 只支持短语字符串
         :param target: 目标语言
+        :param timeout: 超时时间， int | None
         :return: 返回二进制数据, 需要自行写入文件, MP3
         """
         if target is None:
             target = self.target
+
+        if timeout is ...:
+            timeout = self.timeout
 
         for i in range(1, 4):
             response = self.session.get(
@@ -205,7 +222,7 @@ class Translate:
                     'client': 'at',
                     'tl': target,
                     'q': q
-                })
+                }, timeout=timeout)
             if response.status_code == 429:
                 time.sleep(5 * i)
                 continue
