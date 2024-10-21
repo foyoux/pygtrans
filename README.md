@@ -589,9 +589,8 @@ for code, lang in TARGET_LANGUAGES.items():
 1. `pygtrans`中包含两个翻译模块
     1. `Translate`:
         - 完全免费，支持批量
-        - 从2021年9月15日开始, 需要翻墙才能使用, 具体参考 [#8](https://github.com/foyoux/pygtrans/issues/8)
-    2. `ApiKeyTranslate`: 需要有效的谷歌翻译 **API KEY
-       **，[谷歌提供免费试用](https://cloud.google.com/translate/docs/quickstarts)
+        - 从2021年9月15日开始, 需要科学上网才能使用, 具体参考 [#8](https://github.com/foyoux/pygtrans/issues/8)
+    2. `ApiKeyTranslate`: 需要有效的谷歌翻译 **API KEY**，[谷歌提供免费试用](https://cloud.google.com/translate/docs/quickstarts)
 2. `Translate`的最佳实践:
     1. `http` 代理：`Translate(proxies={"https": "http://localhost:10809"})`
     2. `socks5` 代理: `Translate(proxies={"https": "socks5://localhost:10808"})`
