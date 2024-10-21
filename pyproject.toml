@@ -19,6 +19,8 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Environment :: Console",
     "Natural Language :: Chinese (Simplified)",
@@ -31,7 +33,6 @@ dynamic = ["version", "dependencies"]
 "Source" = "https://github.com/foyoux/pygtrans"
 "Homepage" = "https://github.com/foyoux/pygtrans"
 "Bug Tracker" = "https://github.com/foyoux/pygtrans/issues"
-"Documentation" = "https://pygtrans.readthedocs.io/zh_CN/latest/"
 
 
 [project.scripts]
@@ -49,4 +50,3 @@ dependencies = { file = "requirements.txt" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
-exclude = ["tests*"]

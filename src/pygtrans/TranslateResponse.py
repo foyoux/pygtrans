@@ -1,11 +1,9 @@
-"""TranslateResponse"""
-
-
-# noinspection PyPep8Naming
 class TranslateResponse:
-    """TranslateResponse"""
 
-    def __init__(self, translatedText: str, detectedSourceLanguage: str = None, model: str = None):
+    # noinspection PyPep8Naming
+    def __init__(
+        self, translatedText: str, detectedSourceLanguage: str = None, model: str = None
+    ):
         """
 
         :param translatedText: 翻译成目标语言的文本。
@@ -25,4 +23,7 @@ class TranslateResponse:
         self.model = model
 
     def __repr__(self):
-        return self.__class__.__qualname__ + f'(translatedText={repr(self.translatedText)}, detectedSourceLanguage={repr(self.detectedSourceLanguage)}, model={repr(self.model)})'
+        return (
+            self.__class__.__qualname__
+            + f"(translatedText={repr(self.translatedText)}, detectedSourceLanguage={repr(self.detectedSourceLanguage)}, model={repr(self.model)})"
+        )

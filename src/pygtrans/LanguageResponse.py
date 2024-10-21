@@ -1,6 +1,3 @@
-"""LanguageResponse"""
-
-
 class LanguageResponse:
     """LanguageResponse"""
 
@@ -15,4 +12,7 @@ class LanguageResponse:
         self.name = name
 
     def __repr__(self):
-        return self.__class__.__qualname__ + f'(language={repr(self.language)}, name={repr(self.language)})'
+        return (
+            self.__class__.__qualname__
+            + f"(language={repr(self.language)}, name={repr(self.language)})"
+        )

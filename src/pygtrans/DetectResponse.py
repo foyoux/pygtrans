@@ -4,6 +4,7 @@
 class DetectResponse:
     """DetectResponse"""
 
+    # noinspection PyPep8Naming
     def __init__(self, language: str, isReliable: bool = True, confidence: float = 1.0):
         """
 
@@ -17,4 +18,7 @@ class DetectResponse:
         self.confidence = confidence
 
     def __repr__(self):
-        return self.__class__.__qualname__ + f'(language={repr(self.language)}, isReliable={repr(self.isReliable)}, confidence={repr(self.confidence)})'
+        return (
+            self.__class__.__qualname__
+            + f"(language={repr(self.language)}, isReliable={repr(self.isReliable)}, confidence={repr(self.confidence)})"
+        )
