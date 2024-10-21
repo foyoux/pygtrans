@@ -86,28 +86,8 @@ class Translate:
         """
         if timeout is ...:
             timeout = self.timeout
-        for i in range(1, 4):
-            response = self.session.post(
-                self.DETECT_URL,
-                params={
-                    "dj": 1,
-                    "sl": "auto",
-                    "ie": "UTF-8",
-                    "oe": "UTF-8",
-                    "client": "at",
-                },
-                data={"q": q},
-                timeout=timeout,
-            )
-            if response.status_code == 429:
-                time.sleep(5 * i)
-                continue
-            break
-        # noinspection PyUnboundLocalVariable
-        if response.status_code != 200:
-            return Null(response)
-        rt = response.json()
-        return DetectResponse(language=rt["src"], confidence=rt["confidence"])
+        rt = self.translate(q, target="en", timeout=timeout)
+        return DetectResponse(language=rt.detectedSourceLanguage)
 
     @overload
     def translate(
