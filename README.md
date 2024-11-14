@@ -596,3 +596,4 @@ for code, lang in TARGET_LANGUAGES.items():
     2. `socks5` 代理: `Translate(proxies={"https": "socks5://localhost:10808"})`
     3. **重要**：尽量一次性多翻译，减少请求次数，参考 [#13](https://github.com/foyoux/pygtrans/issues/13)，比如一次性翻译
        2000 / 5000 / 10000，甚至一次性 100000 条
+3. 如果 `429`, 可尝试切换 domain, 具体参考 [#37](https://github.com/foyoux/pygtrans/issues/37)
