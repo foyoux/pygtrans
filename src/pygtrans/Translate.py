@@ -45,6 +45,7 @@ class Translate:
         domain: str = "com",
         proxies: Dict = None,
         timeout: int = None,
+        trust_env=False,
     ):
         self.target = target
         self.source = source
@@ -65,7 +66,7 @@ class Translate:
         self.DETECT_URL: str = f"{self.BASE_URL}/translate_a/single"
         self.TRANSLATE_URL: str = f"{self.BASE_URL}/translate_a/t"
         self.TTS_URL: str = f"{self.BASE_URL}/translate_tts"
-        self.session.trust_env = False
+        self.session.trust_env = trust_env
 
         if proxies:
             self.session.proxies = proxies

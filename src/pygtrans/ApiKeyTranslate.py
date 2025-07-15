@@ -81,6 +81,7 @@ class ApiKeyTranslate:
         model: str = "nmt",
         proxies: Dict = None,
         timeout=None,
+        trust_env=False,
     ):
         self.api_key = api_key
         self.target = target
@@ -89,7 +90,7 @@ class ApiKeyTranslate:
         self.fmt = fmt
         self.model = model
         self.session = requests.Session()
-        self.session.trust_env = False
+        self.session.trust_env = trust_env
         if proxies:
             self.session.proxies = proxies
 
